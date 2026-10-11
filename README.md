@@ -13,6 +13,13 @@ GitHub Actions 每 6 小时自动更新一次。
 国内访问 raw.githubusercontent.com 不稳定时，可以在前面加镜像加速，例如
 `https://ghfast.top/https://raw.githubusercontent.com/...`。
 
+## iOS：MiraPlay / HawkPlayer 等 Cat 格式应用
+
+订阅地址：`https://raw.githubusercontent.com/hxq900203/SHIPIN/main/dist/cat/index.js.md5`
+
+只包含饭太硬里的苹果CMS 采集接口（type 1）。jar 爬虫是 Java 写的，iOS 跑不了，会被跳过，
+所以站点数量比安卓少。源码在 `cat/src/`，打包后输出到 `dist/cat/`。
+
 ## 第一次使用
 
 1. 把本分支合并到 `main`。

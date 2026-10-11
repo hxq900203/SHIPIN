@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DIST = ROOT / "dist"
 SOURCES = ROOT / "sources.json"
 CUSTOM = ROOT / "custom.json"
+CAT_SITES = ROOT / "cat" / "sites.json"
 UA = "okhttp/3.12.0"
 
 
@@ -96,6 +97,21 @@ def merge_custom(cfg):
     return cfg
 
 
+def cms_sites(cfg):
+    """挑出 iOS 能用的苹果CMS JSON 接口（type 1），jar / JS 爬虫跳过。"""
+    out, seen = [], set()
+    for s in cfg.get("sites", []):
+        api = str(s.get("api", ""))
+        if s.get("type") != 1 or not api.startswith("http"):
+            continue
+        key = re.sub(r"\W", "_", str(s.get("key") or s.get("name")), flags=re.ASCII) or f"s{len(out)}"
+        while key in seen:
+            key += "_"
+        seen.add(key)
+        out.append({"key": key, "name": s.get("name") or key, "api": api})
+    return out
+
+
 def main():
     urls = json.loads(SOURCES.read_text(encoding="utf-8"))["upstream"]
     cfg, errors = None, []
@@ -116,9 +132,13 @@ def main():
     data = json.dumps(cfg, ensure_ascii=False, indent=2).encode("utf-8")
     digest = hashlib.md5(data).hexdigest()
     (DIST / "tv.json").write_bytes(data)
-    (DIST / "tv.json.md5").write_text(digest + "\n")
-    (DIST / "tv.md5").write_text(digest + "\n")
+    (DIST / "tv.json.md5").write_text(digest)
+    (DIST / "tv.md5").write_text(digest)
     print(f"md5={digest}")
+
+    sites = cms_sites(cfg)
+    CAT_SITES.write_text(json.dumps(sites, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"cat 可用站点 {len(sites)} 个")
 
 
 if __name__ == "__main__":
