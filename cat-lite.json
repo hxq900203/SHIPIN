@@ -1,0 +1,5 @@
+{
+  "upstream": "https://9280.kstore.vip/cat/",
+  "hide_name_patterns": ["4K"],
+  "hide_keys": []
+}

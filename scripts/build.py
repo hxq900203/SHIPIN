@@ -8,18 +8,25 @@ import re
 import sys
 import urllib.request
 from pathlib import Path
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlsplit, urlunsplit
 
 ROOT = Path(__file__).resolve().parent.parent
 DIST = ROOT / "dist"
 SOURCES = ROOT / "sources.json"
 CUSTOM = ROOT / "custom.json"
-CAT_SITES = ROOT / "cat" / "sites.json"
 UA = "okhttp/3.12.0"
 
 
+def idna_url(url):
+    """中文域名（如 饭太硬）转成 xn-- 形式，urllib 不能直接处理。"""
+    parts = urlsplit(url)
+    host = parts.hostname.encode("idna").decode()
+    netloc = host + (f":{parts.port}" if parts.port else "")
+    return urlunsplit(parts._replace(netloc=netloc))
+
+
 def fetch(url, timeout=30):
-    req = urllib.request.Request(url, headers={"User-Agent": UA})
+    req = urllib.request.Request(idna_url(url), headers={"User-Agent": UA})
     with urllib.request.urlopen(req, timeout=timeout) as resp:
         return resp.read(), resp.geturl()
 
@@ -97,21 +104,6 @@ def merge_custom(cfg):
     return cfg
 
 
-def cms_sites(cfg):
-    """挑出 iOS 能用的苹果CMS JSON 接口（type 1），jar / JS 爬虫跳过。"""
-    out, seen = [], set()
-    for s in cfg.get("sites", []):
-        api = str(s.get("api", ""))
-        if s.get("type") != 1 or not api.startswith("http"):
-            continue
-        key = re.sub(r"\W", "_", str(s.get("key") or s.get("name")), flags=re.ASCII) or f"s{len(out)}"
-        while key in seen:
-            key += "_"
-        seen.add(key)
-        out.append({"key": key, "name": s.get("name") or key, "api": api})
-    return out
-
-
 def main():
     urls = json.loads(SOURCES.read_text(encoding="utf-8"))["upstream"]
     cfg, errors = None, []
@@ -135,10 +127,6 @@ def main():
     (DIST / "tv.json.md5").write_text(digest)
     (DIST / "tv.md5").write_text(digest)
     print(f"md5={digest}")
-
-    sites = cms_sites(cfg)
-    CAT_SITES.write_text(json.dumps(sites, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"cat 可用站点 {len(sites)} 个")
 
 
 if __name__ == "__main__":

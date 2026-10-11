@@ -13,12 +13,17 @@ GitHub Actions 每 6 小时自动更新一次。
 国内访问 raw.githubusercontent.com 不稳定时，可以在前面加镜像加速，例如
 `https://ghfast.top/https://raw.githubusercontent.com/...`。
 
-## iOS：MiraPlay / HawkPlayer 等 Cat 格式应用
+## iOS：MiraPlay / HawkPlayer 等（去掉 4K 版）
 
-订阅地址：`https://raw.githubusercontent.com/hxq900203/SHIPIN/main/dist/cat/index.js.md5`
+订阅地址：`https://raw.githubusercontent.com/hxq900203/SHIPIN/main/dist/cat-lite/index.js.md5`
 
-只包含饭太硬里的苹果CMS 采集接口（type 1）。jar 爬虫是 Java 写的，iOS 跑不了，会被跳过，
-所以站点数量比安卓少。源码在 `cat/src/`，打包后输出到 `dist/cat/`。
+来源是群里的 Cat 接口 `https://9280.kstore.vip/cat/index.js.md5`，脚本 `scripts/cat_lite.py`
+下载后先核对 md5，再把名字里带 “4K” 的站点去掉。想去掉别的站，改 `cat-lite.json`：
+
+- `hide_name_patterns`：站名匹配（正则，不分大小写），默认 `["4K"]`
+- `hide_keys`：按站点 key 精确去掉，比如 `["guazi"]`
+
+上游源码结构变了导致找不到补丁位置时，脚本会报错退出，不会生成坏文件。
 
 ## 第一次使用
 
