@@ -7,15 +7,15 @@ GitHub Actions 每 6 小时自动更新一次。
 
 | 文件 | 地址 |
 |---|---|
-| 配置 | `https://raw.githubusercontent.com/hxq900203/SHIPIN/main/dist/tv.json` |
-| MD5 | `https://raw.githubusercontent.com/hxq900203/SHIPIN/main/dist/tv.json.md5`（同内容：`dist/tv.md5`） |
+| 配置 | `https://raw.githubusercontent.com/hxq900203/SHIPIN/claude/trusting-fermat-sosbmf/dist/tv.json` |
+| MD5 | `https://raw.githubusercontent.com/hxq900203/SHIPIN/claude/trusting-fermat-sosbmf/dist/tv.json.md5`（同内容：`dist/tv.md5`） |
 
 国内访问 raw.githubusercontent.com 不稳定时，可以在前面加镜像加速，例如
 `https://ghfast.top/https://raw.githubusercontent.com/...`。
 
 ## iOS：MiraPlay / HawkPlayer 等（去掉 4K 版）
 
-订阅地址：`https://raw.githubusercontent.com/hxq900203/SHIPIN/main/dist/cat-lite/index.js.md5`
+订阅地址：`https://raw.githubusercontent.com/hxq900203/SHIPIN/claude/trusting-fermat-sosbmf/dist/cat-lite/index.js.md5`
 
 来源是群里的 Cat 接口 `https://9280.kstore.vip/cat/index.js.md5`，脚本 `scripts/cat_lite.py`
 下载后先核对 md5，再把名字里带 “4K” 的站点去掉。想去掉别的站，改 `cat-lite.json`：
@@ -27,8 +27,8 @@ GitHub Actions 每 6 小时自动更新一次。
 
 ## 第一次使用
 
-1. 把本分支合并到 `main`。
-2. 打开仓库的 **Actions** 页面 → 「更新配置」→ **Run workflow**，跑一次生成 `dist/`。
+1. 仓库已公开，默认分支就是 `claude/trusting-fermat-sosbmf`，Actions 每 6 小时在这个分支上自动更新。
+2. 想立即更新：打开仓库的 **Actions** 页面 → 「更新配置」→ **Run workflow**。
 3. 把上面的地址填到 TVBox / 影视仓 / MiraPlay 等应用的“配置地址”里。
 
 ## 文件说明
