@@ -1,0 +1,31 @@
+# SHIPIN 影视配置
+
+自动抓取饭太硬的 TVBox 配置，解码成明文 JSON，合并你自己的片源，并生成 `.md5` 校验文件。
+GitHub Actions 每 6 小时自动更新一次。
+
+## 订阅地址（仓库公开后可用）
+
+| 文件 | 地址 |
+|---|---|
+| 配置 | `https://raw.githubusercontent.com/hxq900203/SHIPIN/main/dist/tv.json` |
+| MD5 | `https://raw.githubusercontent.com/hxq900203/SHIPIN/main/dist/tv.json.md5`（同内容：`dist/tv.md5`） |
+
+国内访问 raw.githubusercontent.com 不稳定时，可以在前面加镜像加速，例如
+`https://ghfast.top/https://raw.githubusercontent.com/...`。
+
+## 第一次使用
+
+1. 把本分支合并到 `main`。
+2. 打开仓库的 **Actions** 页面 → 「更新配置」→ **Run workflow**，跑一次生成 `dist/`。
+3. 把上面的地址填到 TVBox / 影视仓 / MiraPlay 等应用的“配置地址”里。
+
+## 文件说明
+
+- `sources.json`：上游地址，按顺序尝试，前一个失败就用下一个。
+- `custom.json`：你自己的片源（`sites` / `parses` / `lives`），会排在最前面；`key` 与上游重复的会跳过。
+- `scripts/build.py`：抓取、解码（明文 / base64 / 图片里藏 base64）、相对路径转绝对路径、输出 JSON 和 MD5。
+- `dist/`：生成结果，不要手动改。
+
+## 注意
+
+片源来自第三方，请仅用于个人学习研究。上游改了加密方式时脚本会报错，Actions 会显示失败。
