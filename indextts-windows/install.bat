@@ -120,6 +120,7 @@ echo.
 rem ---------- 5. 下载模型 ----------
 echo [5/5] 从 ModelScope 下载 IndexTTS-2.5 模型（约 5 GB）...
 "%UV%" run modelscope download --model IndexTeam/IndexTTS-2.5 --local_dir checkpoints
+"%UV%" run modelscope download --model nv-community/bigvgan_v2_22khz_80band_256x config.json bigvgan_generator.pt --local_dir checkpoints\hf_cache\bigvgan
 if errorlevel 1 (
   echo [警告] 模型下载没有完成。可以直接重新运行本脚本继续下载，
   echo        或者先运行“启动.bat”，程序也会自动补下载。
