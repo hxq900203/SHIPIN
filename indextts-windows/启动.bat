@@ -18,6 +18,11 @@ if not exist "%UV%" (
 )
 cd /d "%INSTALL_DIR%\index-tts"
 
+rem 上次下载中断会留下不完整的 bigvgan 文件夹，程序不会自动补下载，所以先删掉让它重新下
+set "BIGVGAN=%INSTALL_DIR%\index-tts\checkpoints\hf_cache\bigvgan"
+if exist "%BIGVGAN%" if not exist "%BIGVGAN%\config.json" rmdir /s /q "%BIGVGAN%"
+if exist "%BIGVGAN%" if not exist "%BIGVGAN%\bigvgan_generator.pt" rmdir /s /q "%BIGVGAN%"
+
 echo 正在启动 IndexTTS，加载模型需要一两分钟，准备好后会自动打开浏览器...
 echo 用完直接关掉这个黑色窗口即可。
 echo.
